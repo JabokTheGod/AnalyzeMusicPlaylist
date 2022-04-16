@@ -71,62 +71,7 @@ namespace AnalyzeMusicPlaylist
                     Console.WriteLine($"Sample Music Playlist does not exist at path: " , MusicPLaylistFilePath);
                 }
             }
-            static bool ReadSongData(string filePath)
-            {
-                Console.WriteLine($"Reading data from: " , filePath);
-
-                try 
-                {
-                    int NumItemsInRow = 0;
-                    string[] lineNumbers = File.ReadAllLines(filePath);
-                    for (int i = 0; i < lineNumbers.Length; i++)
-                    {
-                        string lineNumber = lineNumbers[i];
-                        string[] value = lineNumber.Split('\t');
-                        
-                        if (i == 0)
-                        {
-                            NumItemsInRow = value.Length;
-                        }
-                        else
-                        {
-                            if (NumItemsInRow != value.Length)
-                            {
-                                Console.WriteLine($"Row " , lineNumber , " contains " , value.Length , " values. It should contain " , NumItemsInRow , ".");
-                                return false;
-                            }
-                            else 
-                            {
-                                try
-                                {   
-                                    SongData songData = new SongData();
-                                    songData.Name = value[0];
-                                    songData.Artist = value[1];
-                                    songData.Album = value[2];
-                                    songData.Genre = Convert.ToString(value[3]);
-                                    songData.Size = Convert.ToInt32(value[4]);
-                                    songData.Time = Convert.ToInt32(value[5]);
-                                    songData.Year = Convert.ToInt32(value[6]);
-                                    songData.Plays = Convert.ToInt32(value[7]);
-                                    songDataList.Add(songData);
-                                }
-                                catch (InvalidCastException)
-                                {
-                                    Console.WriteLine($"Row " , i , " contains invalid value.");
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    Console.WriteLine($"Data reading success.");
-                    return true;
-                } 
-                catch(Exception c) 
-                {
-                    Console.WriteLine("Error in reading data from txt file.");
-                    throw c;
-                } 
-            }
+            
             // 1
             Console.WriteLine("1. How many songs received 200 or more plays?");
             var plays200plus = from song in songDataList where song.Plays >= 200 orderby song.Year descending select song;
@@ -186,13 +131,12 @@ namespace AnalyzeMusicPlaylist
             foreach(var Genre in groupByUniqueGenres) {
                 Console.WriteLine($"{ Genre.Key } => {Genre.Count() }");
             }
-            
 
             // 9
             Console.WriteLine("9. How many songs were produced each year in the playlist?");
 
             // 10
-            Console.WriteLine("10. What are the total plays per year  in the playlist?");
+            Console.WriteLine("10. What are the total plays per year in the playlist?");
 
             // 11
             Console.WriteLine("11. Print a list of the unique artists in the playlist.");
@@ -201,9 +145,63 @@ namespace AnalyzeMusicPlaylist
             foreach(var Artist in groupByUniqueGenres) {
                 Console.WriteLine($"{ Artist.Key } => {Artist.Count() }");
             }
-
-
+        }
         
+        static bool ReadSongData(string filePath)
+        {
+            Console.WriteLine($"Reading data from: " , filePath);
+
+            try 
+            {
+                int NumItemsInRow = 0;
+                string[] lineNumbers = File.ReadAllLines(filePath);
+                for (int i = 0; i < lineNumbers.Length; i++)
+                {
+                    string lineNumber = lineNumbers[i];
+                    string[] value = lineNumber.Split('\t');
+                    
+                    if (i == 0)
+                    {
+                        NumItemsInRow = value.Length;
+                    }
+                    else
+                    {
+                        if (NumItemsInRow != value.Length)
+                        {
+                            Console.WriteLine($"Row " , lineNumber , " contains " , value.Length , " values. It should contain " , NumItemsInRow , ".");
+                            return false;
+                        }
+                        else 
+                        {
+                            try
+                            {   
+                                SongData songData = new SongData();
+                                songData.Name = value[0];
+                                songData.Artist = value[1];
+                                songData.Album = value[2];
+                                songData.Genre = Convert.ToString(value[3]);
+                                songData.Size = Convert.ToInt32(value[4]);
+                                songData.Time = Convert.ToInt32(value[5]);
+                                songData.Year = Convert.ToInt32(value[6]);
+                                songData.Plays = Convert.ToInt32(value[7]);
+                                songDataList.Add(songData);
+                            }
+                            catch (InvalidCastException)
+                            {
+                                Console.WriteLine($"Row " , i , " contains invalid value.");
+                                return false;
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine($"Data reading success.");
+                return true;
+            } 
+            catch(Exception) 
+            {
+                Console.WriteLine("Error in reading data from txt file.");
+                throw;
+            } 
         }
     }
 }
