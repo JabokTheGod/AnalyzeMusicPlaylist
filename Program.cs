@@ -181,16 +181,12 @@ namespace AnalyzeMusicPlaylist
 
             // 8
             Console.WriteLine("8. What are the unique Genres in the playlist?");
-            // var groupByUniqueGenres = from song in songDataList group song by song.Genre into newGroup
-            //     orderby newGroup.Key
-            //     select newGroup;
             var groupByUniqueGenres = from song in songDataList group song by song.Genre into newGroup select newGroup;
 
             foreach(var Genre in groupByUniqueGenres) {
                 Console.WriteLine($"{ Genre.Key } => {Genre.Count() }");
             }
-            // var results = from song in songDataList group song.Genre by Genre.song into g
-            //     select new { PersonId = g.Key, Cars = g.ToList() };
+            
 
             // 9
             Console.WriteLine("9. How many songs were produced each year in the playlist?");
