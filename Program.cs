@@ -137,6 +137,7 @@ namespace AnalyzeMusicPlaylist
             {
                 Console.WriteLine(song);
             }
+            
             // 2
             Console.WriteLine("2. How many songs are in the playlist with the Genre of “Alternative”?");
             var altSongs = (from song in songDataList where song.Genre == "Alternative" select song).Count();
