@@ -133,7 +133,7 @@ namespace AnalyzeMusicPlaylist
             Console.WriteLine("Songs that received 200 or more plays:");
             foreach (var song in plays200plus)
             {
-                Console.WriteLine(song);
+                Console.WriteLine(song.ToString());
             }
 
             // 2
